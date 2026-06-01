@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.env
+venv/
+.venv/
+
+# GCP credentials - NEVER commit these
+*.json
+gcp_key*.json
+service_account*.json
+
+# dbt
+target/
+dbt_packages/
+logs/
+.dbt/profiles.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Reports (generated at runtime)
+reports/
+*.md.bak
