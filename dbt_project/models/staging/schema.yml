@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Cleaned and standardised order/transaction data"
+    columns:
+      - name: order_id
+        description: "Primary key — must be unique and never null"
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "Foreign key to stg_users — most orders will have a user profile, but not all users click"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+              config:
+                severity: warn
+
+      - name: product_id
+        description: "Product identifier — must never be null"
+        tests:
+          - not_null
+
+      - name: status
+        description: "Order status must be one of the known values"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['completed', 'pending', 'cancelled', 'refunded']
+
+      - name: revenue_usd
+        description: "Calculated revenue — must be a positive number"
+        tests:
+          - not_null
+
+      - name: order_date
+        description: "Order timestamp — must never be null"
+        tests:
+          - not_null
+
+  - name: stg_users
+    description: "User engagement profiles aggregated from clickstream"
+    columns:
+      - name: user_id
+        description: "Primary key — must be unique and never null"
+        tests:
+          - unique
+          - not_null
+
+      - name: total_sessions
+        description: "Must be at least 1 — every user in this table clicked something"
+        tests:
+          - not_null
+
+      - name: primary_device
+        description: "Device must be one of the known types"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['desktop', 'mobile', 'tablet']
