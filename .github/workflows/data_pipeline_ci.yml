@@ -9,6 +9,7 @@ on:
 env:
   PROJECT_ID: ecommerce-pipeline-498214
   GCP_KEY_PATH: /tmp/gcp_key.json
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   pipeline:
